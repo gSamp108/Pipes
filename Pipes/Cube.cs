@@ -10,82 +10,75 @@ namespace Pipes
 {
     public sealed class Cube
     {
-        public static float Left { get { return -1; } }
-        public static float Right { get { return 1; } }
-        public static float Top { get { return 1; } }
-        public static float Bottom { get { return -1; } }
-        public static float Near { get { return 1; } }
-        public static float Far { get { return -1; } }
+        public static Vector3 LeftUpForward { get { return new Vector3(Vector3.Left.X, Vector3.Up.Y, Vector3.Forward.Z); } }
+        public static Vector3 LeftDownForward { get { return new Vector3(Vector3.Left.X, Vector3.Down.Y, Vector3.Forward.Z); } }
+        public static Vector3 RightUpForward { get { return new Vector3(Vector3.Right.X, Vector3.Up.Y, Vector3.Forward.Z); } }
+        public static Vector3 RightDownForward { get { return new Vector3(Vector3.Right.X, Vector3.Down.Y, Vector3.Forward.Z); } }
+        public static Vector3 LeftUpBackward { get { return new Vector3(Vector3.Left.X, Vector3.Up.Y, Vector3.Backward.Z); } }
+        public static Vector3 LeftDownBackward { get { return new Vector3(Vector3.Left.X, Vector3.Down.Y, Vector3.Backward.Z); } }
+        public static Vector3 RightUpBackward { get { return new Vector3(Vector3.Right.X, Vector3.Up.Y, Vector3.Backward.Z); } }
+        public static Vector3 RightDownBackward { get { return new Vector3(Vector3.Right.X, Vector3.Down.Y, Vector3.Backward.Z); } }
 
-        public static Vector3 LeftNearTop { get { return new Vector3(Cube.Left, Cube.Near, Cube.Top); } }
-        public static Vector3 LeftNearBottom { get { return new Vector3(Cube.Left, Cube.Near, Cube.Bottom); } }
-        public static Vector3 RightNearTop { get { return new Vector3(Cube.Right, Cube.Near, Cube.Top); } }
-        public static Vector3 RightNearBottom { get { return new Vector3(Cube.Right, Cube.Near, Cube.Bottom); } }
-        public static Vector3 LeftFarTop { get { return new Vector3(Cube.Left, Cube.Far, Cube.Top); } }
-        public static Vector3 LeftFarBottom { get { return new Vector3(Cube.Left, Cube.Far, Cube.Bottom); } }
-        public static Vector3 RightFarTop { get { return new Vector3(Cube.Right, Cube.Far, Cube.Top); } }
-        public static Vector3 RightFarBottom { get { return new Vector3(Cube.Right, Cube.Far, Cube.Bottom); } }
-
-        public static VertexPositionNormalTexture[] TopSide
+        public static VertexPositionNormalTexture[] UpSide
         {
             get
             {
                 return new VertexPositionNormalTexture[]
                 {
-                    new VertexPositionNormalTexture(Cube.LeftFarTop, new Vector3(0,0,Cube.Top), new Vector2(0, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftNearTop, new Vector3(0,0,Cube.Top), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightFarTop, new Vector3(0,0,Cube.Top), new Vector2(1, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftNearTop, new Vector3(0,0,Cube.Top), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightNearTop, new Vector3(0,0,Cube.Top), new Vector2(1, 1)),
-                    new VertexPositionNormalTexture(Cube.RightFarTop, new Vector3(0,0,Cube.Top), new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftUpBackward, Vector3.Up, new Vector2(0, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftUpForward,Vector3.Up, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightUpBackward, Vector3.Up, new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftUpForward, Vector3.Up, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightUpForward, Vector3.Up, new Vector2(1, 1)),
+                    new VertexPositionNormalTexture(Cube.RightUpBackward, Vector3.Up, new Vector2(1, 0)),
                 };
             }
         }
 
-        public static VertexPositionNormalTexture[] BottomSide
+        public static VertexPositionNormalTexture[] DownSide
         {
             get
             {
                 return new VertexPositionNormalTexture[]
                 {
-                    new VertexPositionNormalTexture(Cube.LeftNearBottom, new Vector3(0,0,Cube.Bottom), new Vector2(0, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftFarBottom, new Vector3(0,0,Cube.Bottom), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightNearBottom, new Vector3(0,0,Cube.Bottom), new Vector2(1, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftFarBottom, new Vector3(0,0,Cube.Bottom), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightFarBottom, new Vector3(0,0,Cube.Bottom), new Vector2(1, 1)),
-                    new VertexPositionNormalTexture(Cube.RightNearBottom, new Vector3(0,0,Cube.Bottom), new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftDownForward, Vector3.Down, new Vector2(0, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftDownBackward, Vector3.Down, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightDownForward, Vector3.Down, new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftDownBackward, Vector3.Down, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightDownBackward, Vector3.Down, new Vector2(1, 1)),
+                    new VertexPositionNormalTexture(Cube.RightDownForward, Vector3.Down, new Vector2(1, 0)),
                 };
             }
         }
 
-        public static VertexPositionNormalTexture[] NearSide
+        public static VertexPositionNormalTexture[] ForwardSide
         {
             get
             {
                 return new VertexPositionNormalTexture[]
                 {
-                    new VertexPositionNormalTexture(Cube.LeftNearTop, new Vector3(0,Cube.Near,0), new Vector2(0, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftNearBottom, new Vector3(0,Cube.Near,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightNearTop, new Vector3(0,Cube.Near,0), new Vector2(1, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftNearBottom, new Vector3(0,Cube.Near,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightNearBottom, new Vector3(0,Cube.Near,0), new Vector2(1, 1)),
-                    new VertexPositionNormalTexture(Cube.RightNearTop, new Vector3(0,Cube.Near,0), new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftUpForward, Vector3.Forward, new Vector2(0, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftDownForward, Vector3.Forward, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightUpForward, Vector3.Forward, new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftDownForward, Vector3.Forward, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightDownForward, Vector3.Forward, new Vector2(1, 1)),
+                    new VertexPositionNormalTexture(Cube.RightUpForward, Vector3.Forward, new Vector2(1, 0)),
                 };
             }
         }
 
-        public static VertexPositionNormalTexture[] FarSide
+        public static VertexPositionNormalTexture[] BackwardSide
         {
             get
             {
                 return new VertexPositionNormalTexture[]
                 {
-                    new VertexPositionNormalTexture(Cube.RightFarTop, new Vector3(0,Cube.Far,0), new Vector2(0, 0)),
-                    new VertexPositionNormalTexture(Cube.RightFarBottom, new Vector3(0,Cube.Far,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.LeftFarTop, new Vector3(0,Cube.Far,0), new Vector2(1, 0)),
-                    new VertexPositionNormalTexture(Cube.RightFarBottom, new Vector3(0,Cube.Far,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.LeftFarBottom, new Vector3(0,Cube.Far,0), new Vector2(1, 1)),
-                    new VertexPositionNormalTexture(Cube.LeftFarTop, new Vector3(0,Cube.Far,0), new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.RightUpBackward, Vector3.Backward, new Vector2(0, 0)),
+                    new VertexPositionNormalTexture(Cube.RightDownBackward, Vector3.Backward, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.LeftUpBackward, Vector3.Backward, new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.RightDownBackward, Vector3.Backward, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.LeftDownBackward, Vector3.Backward, new Vector2(1, 1)),
+                    new VertexPositionNormalTexture(Cube.LeftUpBackward, Vector3.Backward, new Vector2(1, 0)),
                 };
             }
         }
@@ -96,12 +89,12 @@ namespace Pipes
             {
                 return new VertexPositionNormalTexture[]
                 {
-                    new VertexPositionNormalTexture(Cube.LeftFarTop, new Vector3(Cube.Left,0,0), new Vector2(0, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftFarBottom, new Vector3(Cube.Left,0,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.LeftNearTop, new Vector3(Cube.Left,0,0), new Vector2(1, 0)),
-                    new VertexPositionNormalTexture(Cube.LeftFarBottom, new Vector3(Cube.Left,0,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.LeftNearBottom, new Vector3(Cube.Left,0,0), new Vector2(1, 1)),
-                    new VertexPositionNormalTexture(Cube.LeftNearTop, new Vector3(Cube.Left,0,0), new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftUpBackward, Vector3.Left, new Vector2(0, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftDownBackward, Vector3.Left, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.LeftUpForward,Vector3.Left, new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.LeftDownBackward, Vector3.Left, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.LeftDownForward, Vector3.Left, new Vector2(1, 1)),
+                    new VertexPositionNormalTexture(Cube.LeftUpForward, Vector3.Left, new Vector2(1, 0)),
                 };
             }
         }
@@ -112,12 +105,12 @@ namespace Pipes
             {
                 return new VertexPositionNormalTexture[]
                 {
-                    new VertexPositionNormalTexture(Cube.RightNearTop, new Vector3(Cube.Right,0,0), new Vector2(0, 0)),
-                    new VertexPositionNormalTexture(Cube.RightNearBottom, new Vector3(Cube.Right,0,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightFarTop, new Vector3(Cube.Right,0,0), new Vector2(1, 0)),
-                    new VertexPositionNormalTexture(Cube.RightNearBottom, new Vector3(Cube.Right,0,0), new Vector2(0, 1)),
-                    new VertexPositionNormalTexture(Cube.RightFarBottom, new Vector3(Cube.Right,0,0), new Vector2(1, 1)),
-                    new VertexPositionNormalTexture(Cube.RightFarTop, new Vector3(Cube.Right,0,0), new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.RightUpForward, Vector3.Right, new Vector2(0, 0)),
+                    new VertexPositionNormalTexture(Cube.RightDownForward, Vector3.Right, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightUpBackward, Vector3.Right, new Vector2(1, 0)),
+                    new VertexPositionNormalTexture(Cube.RightDownForward, Vector3.Right, new Vector2(0, 1)),
+                    new VertexPositionNormalTexture(Cube.RightDownBackward, Vector3.Right, new Vector2(1, 1)),
+                    new VertexPositionNormalTexture(Cube.RightUpBackward, Vector3.Right, new Vector2(1, 0)),
                 };
             }
         }

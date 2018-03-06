@@ -11,6 +11,8 @@ namespace Pipes
 {
     public class Engine : Game
     {
+        public const int ChunkSize = 32;
+
         public InputSystem Input { get; private set; }
         public Camera Camera { get; private set; }
 
@@ -22,7 +24,8 @@ namespace Pipes
         Texture2D outlineTexture;
         KeyboardState lastKeyState;
         Dictionary<Keys, bool> flags = new Dictionary<Keys, bool>();
-        bool cameraOrbit;
+
+        Chunk chunk = new Chunk();
 
         public Engine()
         {
@@ -87,9 +90,45 @@ namespace Pipes
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            this.DrawChunk(chunk);
             DrawGround();
 
             base.Draw(gameTime);
+        }
+
+        private void DrawChunk(Chunk chunk)
+        {
+            effect.View = this.Camera.ViewMatrix;
+            effect.Projection = this.Camera.ProjectionMatrix;
+            effect.TextureEnabled = true;
+            effect.Texture = this.outlineTexture;
+
+
+            for (int x = 0; x < Engine.ChunkSize; x++)
+            {
+                for (int y = 0; y < Engine.ChunkSize; y++)
+                {
+                    for (int z = 0; z < Engine.ChunkSize; z++)
+                    {
+
+                    }
+                }
+            }
+
+            foreach (var pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+
+                if (!this.isFlagged(Keys.D1)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.UpSide, 0, (Cube.UpSide.Length / 3));
+                if (!this.isFlagged(Keys.D2)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.DownSide, 0, (Cube.DownSide.Length / 3));
+
+                if (!this.isFlagged(Keys.D3)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.LeftSide, 0, (Cube.LeftSide.Length / 3));
+                if (!this.isFlagged(Keys.D4)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.RightSide, 0, (Cube.RightSide.Length / 3));
+
+                if (!this.isFlagged(Keys.D5)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.ForwardSide, 0, (Cube.ForwardSide.Length / 3));
+                if (!this.isFlagged(Keys.D6)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.BackwardSide, 0, (Cube.BackwardSide.Length / 3));
+            }
         }
 
         bool isFlagged(Keys key)
@@ -110,12 +149,14 @@ namespace Pipes
             {
                 pass.Apply();
 
-                if (!this.isFlagged(Keys.D1)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.TopSide, 0, (Cube.TopSide.Length / 3));
-                if (!this.isFlagged(Keys.D2)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.RightSide, 0, (Cube.RightSide.Length / 3));
+                if (!this.isFlagged(Keys.D1)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.UpSide, 0, (Cube.UpSide.Length / 3));
+                if (!this.isFlagged(Keys.D2)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.DownSide, 0, (Cube.DownSide.Length / 3));
+
                 if (!this.isFlagged(Keys.D3)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.LeftSide, 0, (Cube.LeftSide.Length / 3));
-                if (!this.isFlagged(Keys.D4)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.BottomSide, 0, (Cube.BottomSide.Length / 3));
-                if (!this.isFlagged(Keys.D5)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.FarSide, 0, (Cube.FarSide.Length / 3));
-                if (!this.isFlagged(Keys.D6)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.NearSide, 0, (Cube.NearSide.Length / 3));
+                if (!this.isFlagged(Keys.D4)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.RightSide, 0, (Cube.RightSide.Length / 3));
+
+                if (!this.isFlagged(Keys.D5)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.ForwardSide, 0, (Cube.ForwardSide.Length / 3));
+                if (!this.isFlagged(Keys.D6)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.BackwardSide, 0, (Cube.BackwardSide.Length / 3));
             }
         }
 
