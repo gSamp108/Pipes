@@ -8,7 +8,6 @@ namespace Pipes
 {
     public sealed class Block
     {
-
         public bool Exists { get; set; }
         public int TypeId { get; set; }
     }

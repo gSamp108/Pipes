@@ -13,3 +13,10 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin LucidaConsole12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:LucidaConsole12.spritefont
+

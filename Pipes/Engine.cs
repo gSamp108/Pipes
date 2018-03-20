@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace Pipes
         public Camera Camera { get; private set; }
 
         private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private SpriteFont font;
+        private float renderTime;
 
         BasicEffect effect;
         Texture2D checkerboardTexture;
@@ -38,6 +42,7 @@ namespace Pipes
             this.Input = new InputSystem(this);
             this.Camera = new Camera(this);
             this.effect = new BasicEffect(graphics.GraphicsDevice);
+            this.spriteBatch = new SpriteBatch(this.graphics.GraphicsDevice);
 
 
             base.Initialize();
@@ -45,6 +50,8 @@ namespace Pipes
 
         protected override void LoadContent()
         {
+            this.font = this.Content.Load<SpriteFont>("LucidaConsole12");
+
             using (var stream = TitleContainer.OpenStream("Content/checkerboard.png"))
             {
                 checkerboardTexture = Texture2D.FromStream(this.GraphicsDevice, stream);
@@ -88,10 +95,20 @@ namespace Pipes
 
         protected override void Draw(GameTime gameTime)
         {
+            var fps = 1d / gameTime.ElapsedGameTime.TotalSeconds;
+            var timer = Stopwatch.StartNew();
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             this.DrawChunk(chunk);
-            DrawGround();
+            this.DrawGround();
+
+            timer.Stop();
+
+            this.spriteBatch.Begin();
+            this.spriteBatch.DrawString(this.font, "FPS: " + fps.ToString("0.00"), new Vector2(20, 20), Color.White);
+            this.spriteBatch.DrawString(this.font, "3D Render Time: " + timer.Elapsed.TotalSeconds.ToString("0.000000"), new Vector2(20, 40), Color.White);
+            this.spriteBatch.End();
 
             base.Draw(gameTime);
         }
@@ -110,24 +127,24 @@ namespace Pipes
                 {
                     for (int z = 0; z < Engine.ChunkSize; z++)
                     {
+                        if (chunk.Blocks[x][y][z].Exists)
+                        {
+                            foreach (var pass in effect.CurrentTechnique.Passes)
+                            {
+                                pass.Apply();
 
+                                if (!this.isFlagged(Keys.D1)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.UpSide, 0, (Cube.UpSide.Length / 3));
+                                if (!this.isFlagged(Keys.D2)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.DownSide, 0, (Cube.DownSide.Length / 3));
+
+                                if (!this.isFlagged(Keys.D3)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.LeftSide, 0, (Cube.LeftSide.Length / 3));
+                                if (!this.isFlagged(Keys.D4)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.RightSide, 0, (Cube.RightSide.Length / 3));
+
+                                if (!this.isFlagged(Keys.D5)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.ForwardSide, 0, (Cube.ForwardSide.Length / 3));
+                                if (!this.isFlagged(Keys.D6)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.BackwardSide, 0, (Cube.BackwardSide.Length / 3));
+                            }
+                        }
                     }
                 }
-            }
-
-            foreach (var pass in effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-
-
-                if (!this.isFlagged(Keys.D1)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.UpSide, 0, (Cube.UpSide.Length / 3));
-                if (!this.isFlagged(Keys.D2)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.DownSide, 0, (Cube.DownSide.Length / 3));
-
-                if (!this.isFlagged(Keys.D3)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.LeftSide, 0, (Cube.LeftSide.Length / 3));
-                if (!this.isFlagged(Keys.D4)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.RightSide, 0, (Cube.RightSide.Length / 3));
-
-                if (!this.isFlagged(Keys.D5)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.ForwardSide, 0, (Cube.ForwardSide.Length / 3));
-                if (!this.isFlagged(Keys.D6)) graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Cube.BackwardSide, 0, (Cube.BackwardSide.Length / 3));
             }
         }
 
